@@ -1,18 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <link rel="stylesheet" href="style.css">
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <title>Focus Toolkit</title>
+  <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <h3>Mode sombre</h3>
+  <h1>Focus Toolkit</h1>
 
-  <button id="toggle">Activer / Désactiver</button>
+  <section>
+    <h2>To-do</h2>
+    <input id="todoInput" placeholder="Nouvelle tâche..." />
+    <button id="addTodo">Ajouter</button>
+    <ul id="todoList"></ul>
+  </section>
 
-  <label>
-    <input type="checkbox" id="auto" />
-    Auto (19h → 7h)
-  </label>
+  <section>
+    <h2>Notes rapides</h2>
+    <textarea id="noteInput" placeholder="Écrire une note..."></textarea>
+    <button id="saveNote">Sauvegarder</button>
+    <ul id="noteList"></ul>
+  </section>
+
+  <section>
+    <h2>Onglets</h2>
+    <button id="saveTab">Sauvegarder onglet actuel</button>
+    <ul id="tabList"></ul>
+  </section>
 
   <script src="popup.js"></script>
 </body>
