@@ -1,27 +1,33 @@
+let enabled = false;
+
 function applyDarkMode() {
-  let style = document.createElement('style');
-  style.id = 'dark-mode-style';
-  style.innerText = `
-    body {
-      background-color: #121212 !important;
-      color: #ffffff !important;
+  if (enabled) return;
+  enabled = true;
+
+  const style = document.createElement("style");
+  style.id = "dark-mode-style";
+
+  style.textContent = `
+    html {
+      background: #111 !important;
+      color: #eee !important;
     }
-    a { color: #bb86fc !important; }
+
+    img, video {
+      filter: brightness(0.8) contrast(1.2);
+    }
   `;
+
   document.head.appendChild(style);
 }
 
 function removeDarkMode() {
-  let style = document.getElementById('dark-mode-style');
+  enabled = false;
+  const style = document.getElementById("dark-mode-style");
   if (style) style.remove();
 }
 
-// Vérifie si le mode sombre est activé dans le stockage Chrome
-chrome.storage.sync.get(['darkMode'], function(result) {
-  if (result.darkMode) {
-    applyDarkMode();
-  }
-  else {
-    removeDarkMode(); // Ensure this function is called to remove dark mode if not active
-  }
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.action === "enable") applyDarkMode();
+  if (msg.action === "disable") removeDarkMode();
 });
