@@ -1,42 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
-  let toggleButton = document.getElementById('toggleDarkMode');
-  let statusText = document.getElementById('status');
+const toggleBtn = document.getElementById("toggle");
+const autoCheckbox = document.getElementById("auto");
 
-  function updateUI(isDarkMode) {
-    toggleButton.textContent = isDarkMode ? 'Désactiver' : 'Activer';
-    statusText.textContent = `Statut : ${isDarkMode ? 'Activé' : 'Désactivé'}`;
-  }
+// load settings
+chrome.storage.local.get(["enabled", "auto"], (data) => {
+  autoCheckbox.checked = data.auto ?? true;
+});
 
-  function toggleDarkMode(enable) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      if (tabs.length > 0) {
-        chrome.scripting.executeScript({
-          target: { tabId: tabs[0].id },
-          func: enable
-            ? () => {
-                document.body.style.backgroundColor = "#121212";
-                document.body.style.color = "#ffffff";
-              }
-            : () => {
-                document.body.style.backgroundColor = "";
-                document.body.style.color = "";
-              }
-        });
-      }
-    });
-  }
+// toggle auto
+autoCheckbox.addEventListener("change", () => {
+  chrome.storage.local.set({ auto: autoCheckbox.checked });
+});
 
-  chrome.storage.sync.get(['darkMode'], function(result) {
-    updateUI(result.darkMode);
-  });
+// toggle dark mode
+toggleBtn.addEventListener("click", async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  toggleButton.addEventListener('click', function() {
-    chrome.storage.sync.get(['darkMode'], function(result) {
-      let newMode = !result.darkMode;
-      chrome.storage.sync.set({ darkMode: newMode }, function() {
-        updateUI(newMode);
-        toggleDarkMode(newMode);
-      });
-    });
+  const data = await chrome.storage.local.get("enabled");
+  const enabled = !data.enabled;
+
+  await chrome.storage.local.set({ enabled });
+
+  chrome.tabs.sendMessage(tab.id, {
+    action: enabled ? "enable" : "disable"
   });
 });
