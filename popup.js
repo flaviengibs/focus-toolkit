@@ -20,6 +20,11 @@ toggleBtn.addEventListener("click", async () => {
 
   await chrome.storage.local.set({ enabled });
 
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["content.js"]
+  });
+  
   chrome.tabs.sendMessage(tab.id, {
     action: enabled ? "enable" : "disable"
   });
