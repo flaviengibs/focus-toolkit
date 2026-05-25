@@ -1,19 +1,27 @@
+// initialise une vérif toutes les 5 minutes
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({ darkMode: false });
+  chrome.alarms.create("darkModeCheck", {
+    periodInMinutes: 5
+  });
 });
 
-function checkTimeAndApplyDarkMode() {
-  let hour = new Date().getHours();
-  let shouldEnable = hour >= 19 || hour < 7;
-  chrome.storage.sync.set({ darkMode: shouldEnable });
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach(tab => {
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: shouldEnable ? applyDarkMode : removeDarkMode
-      });
-    });
+chrome.alarms.onAlarm.addListener(async () => {
+  const { enabled, auto } = await chrome.storage.local.get({
+    enabled: true,
+    auto: true
   });
-}
 
-setInterval(checkTimeAndApplyDarkMode, 60000);
+  if (!enabled || !auto) return;
+
+  const hour = new Date().getHours();
+  const shouldEnable = hour >= 19 || hour < 7;
+
+  if (shouldEnable) {
+    const tabs = await chrome.tabs.query({});
+    for (let tab of tabs) {
+      if (tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: "enable" });
+      }
+    }
+  }
+});
