@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  width: 320px;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+section {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #f4f4f4;
+  margin: 4px 0;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
