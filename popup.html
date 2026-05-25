@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dark mode</title>
-  <script src="popup.js" defer></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Mode Sombre</h2>
-  <p id="status">Status : Unknown</p>
-  <button id="toggleDarkMode">Enable/Disable</button>
+  <h3>Mode sombre</h3>
+
+  <button id="toggle">Activer / Désactiver</button>
+
+  <label>
+    <input type="checkbox" id="auto" />
+    Auto (19h → 7h)
+  </label>
+
+  <script src="popup.js"></script>
 </body>
 </html>
