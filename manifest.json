@@ -11,4 +11,7 @@
   "background": {
     "service_worker": "background.js"
   }
+  "icons":{
+    "128": "apple.png"
+  }
 }
