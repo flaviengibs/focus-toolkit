@@ -1,29 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "Mode Sombre Auto",
-  "version": "2.0",
-  "description": "Mode sombre automatique avec contrôle manuel",
-
-  "permissions": ["storage", "scripting", "tabs", "alarms"],
-  "host_permissions": ["<all_urls>"],
-
-  "background": {
-    "service_worker": "background.js"
-  },
-
+  "name": "Focus Toolkit",
+  "version": "1.0",
+  "description": "To-do list, sauvegarde d'onglets et notes rapides.",
+  "permissions": ["storage", "tabs", "activeTab"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Mode sombre"
+    "default_title": "Focus Toolkit"
   },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
-  ],
-  "icons": { 
-      "128" : "apple.png" 
+  "background": {
+    "service_worker": "background.js"
   }
 }
